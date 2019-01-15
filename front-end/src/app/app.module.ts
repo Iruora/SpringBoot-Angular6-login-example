@@ -25,7 +25,11 @@ import {UrlPermission} from "./urlPermission/url.permission";
 
   ],
   imports: [
-    BrowserModule,HttpModule,FormsModule,routing, FacebookModule.forRoot(),
+    BrowserModule,
+    HttpModule,
+    FormsModule,
+    routing, 
+    FacebookModule.forRoot(),
   ],
   providers: [AuthService,AccountService,UrlPermission],
   bootstrap: [AppComponent]
