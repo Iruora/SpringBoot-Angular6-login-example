@@ -1,40 +1,62 @@
 import { Injectable } from '@angular/core';
-import { Http, Headers, RequestOptions,Response} from '@angular/http';
-import {User} from "../model/model.user";
-import 'rxjs/add/operator/map';
-import {AppComponent} from "../app.component";
+import { Http, Headers, RequestOptions, Response} from '@angular/http';
+import {User} from '../model/model.user';
+import {AppComponent} from '../app.component';
+import {Router} from '@angular/router';
+import { HttpClient, HttpHeaders } from '@angular/common/http';
+
 @Injectable()
 export class AuthService {
-  constructor(public http: Http) { }
+  private router: Router;
+  constructor(public http: HttpClient) { }
+  public errorMessage = '';
+  authenticated = false;
+  authenticate(credentials, callback) {
 
-  public logIn(user: User){
+    const headers = new HttpHeaders(credentials ? {
+        authorization : 'Basic ' + btoa(credentials.username + ':' + credentials.password)
+    } : {});
 
-    let headers = new Headers();
-    headers.append('Accept', 'application/json')
-    // creating base64 encoded String from user name and password
-    var base64Credential: string = btoa( user.username+ ':' + user.password);
-    headers.append("Authorization", "Basic " + base64Credential);
-
-    let options = new RequestOptions();
-    options.headers=headers;
-
-    return this.http.get(AppComponent.API_URL+"/account/login" ,   options)
-      .map((response: Response) => {
-      // login successful if there's a jwt token in the response
-      let user = response.json().principal;// the returned user object is a principal object
-      if (user) {
-        // store user details  in local storage to keep user logged in between page refreshes
-        localStorage.setItem('currentUser', JSON.stringify(user));
-      }
+    this.http.get(AppComponent.API_URL + '/account/login', {headers: headers})
+    .subscribe((response) => {
+        let data: any ;
+        data = response;
+        const u = data.principal;
+        if (response['fullName']) {
+            this.authenticated = true;
+        } else {
+            this.authenticated = false;
+        }
+        return callback && callback(data);
     });
+
+}
+  public logIn(user: User) {
+    console.log(user);
+    let headers = new HttpHeaders();
+    headers.set('Accept', 'application/json');
+    // creating base64 encoded String from user name and password
+    const base64Credential: string = btoa( user.username + ':' + user.password);
+    headers.set( 'Authorization', 'Basic ' + base64Credential);
+    console.log(headers);
+    // const options = new RequestOptions();
+
+    return this.http.get(AppComponent.API_URL + '/account/login', {headers: headers});
   }
 
   logOut() {
     // remove user from local storage to log user out
-    return this.http.post(AppComponent.API_URL+"logout",{})
-      .map((response: Response) => {
-        localStorage.removeItem('currentUser');
-      });
+    // return this.http.post(AppComponent.API_URL + 'logout', {})
+    // .subscribe((response) => {
+      // console.log('Response_logout : ' + response);
+      // let u = localStorage.getItem('currentUser');
+      // console.log(u);
+      // localStorage.removeItem('currentUser');
+      // this.router.navigate(['/logout']);
+    // },
+    // error => {
+
+    // });
 
   }
 }

@@ -1,7 +1,7 @@
 import {Component, OnInit, ViewEncapsulation} from '@angular/core';
-import {AuthService} from "../../services/auth.service";
-import {User} from "../../model/model.user";
-import {Router} from "@angular/router";
+import {AuthService} from '../../services/auth.service';
+import {User} from '../../model/model.user';
+import {Router} from '@angular/router';
 
 @Component({
   selector: 'app-profile',
@@ -18,17 +18,14 @@ export class ProfileComponent implements OnInit {
   }
 
   ngOnInit() {
+    console.log('currentUser', this.currentUser);
   }
 
 // login out from the app
   logOut() {
-    this.authService.logOut()
-      .subscribe(
-        data => {
-          this.router.navigate(['/login']);
-        },
-        error => {
-
-        });
+    // this.authService.logOut();
+    // localStorage.removeItem('currentUser');
+    localStorage.removeItem('currentUser');
+    this.router.navigate(['/logout']);
   }
 }

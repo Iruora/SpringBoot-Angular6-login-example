@@ -1,9 +1,9 @@
 import {Component, OnInit, ViewEncapsulation} from '@angular/core';
-import {User} from "../../model/model.user";
-import {AccountService} from "../../services/account.service";
-import {Router} from "@angular/router";
+import {User} from '../../model/model.user';
+import {AccountService} from '../../services/account.service';
+import {Router} from '@angular/router';
 
-@Component({
+@Component( {
   selector: 'app-register',
   templateUrl: './register.component.html',
   styleUrls: ['./register.component.css'],
@@ -24,8 +24,8 @@ export class RegisterComponent implements OnInit {
         this.router.navigate(['/login']);
       }, err => {
         console.log(err);
-        this.errorMessage = "username already exist";
+        this.errorMessage = 'username already exist';
       }
-    )
+    );
   }
 }

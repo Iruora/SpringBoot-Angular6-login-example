@@ -1,15 +1,15 @@
-import { Component, OnInit, ViewEncapsulation } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { User } from '../../model/model.user';
 import { AuthService } from '../../services/auth.service';
 import { Router } from '@angular/router';
 
 @Component( {
-  selector: 'app-login',
-  templateUrl: './login.component.html',
-  styleUrls: ['./login.component.css'],
-  encapsulation: ViewEncapsulation.None
+  selector: 'app-logout',
+  templateUrl: './logout.component.html',
+  styleUrls: ['./logout.component.css']
 })
-export class LoginComponent implements OnInit {
+export class LogoutComponent implements OnInit {
+
   user: User = new User();
   errorMessage: string;
   constructor(private authService: AuthService, private router: Router) { }
