@@ -1,4 +1,4 @@
-# spring-boot & angular4 authentication application
+# spring-boot & angular 6 authentication application
 - This project is a simple secured authentication of an Angular6 frontend application with a simple Spring Boot backend API with Spring  Security.
 
  
